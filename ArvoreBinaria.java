@@ -28,20 +28,13 @@ public class ArvoreBinaria<T extends Comparable<T>> {
 		}
 	}
 
-	public void imprimirArvore() {
-		imprimirArvore(raiz, 0);
-	}
-
-	private void imprimirArvore(No<T> no, int nivel) {
-		if (no == null) return;
-
-		for (int i = 0; i < nivel; i++) {
-			System.out.print(" ");
+	public void imprimir() {
+		if(this.arvoreVazia()){
+			System.out.println("Árvore vazia!");	
+		}else {
+			this.raiz.imprimirNo("");
 		}
-		System.out.println("+- " + no.exibir());
-
-		imprimirArvore(no.esquerda, nivel + 1);
-		imprimirArvore(no.direita, nivel + 1);
+		System.out.println("");
 	}
 
 	public void revelarTudo() {
