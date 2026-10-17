@@ -69,4 +69,14 @@ public class No<T extends Comparable<T>> {
     public String toString() {
         return exibir();
     }
+
+	public void imprimirNo(String recuo){
+		System.out.println(recuo + "+- " + this.exibir());
+		
+		if(this.esquerda != null)
+			this.esquerda.imprimirNo(recuo + " ");
+
+		if(this.direita != null)
+			this.direita.imprimirNo(recuo + " ");
+	}
 }
