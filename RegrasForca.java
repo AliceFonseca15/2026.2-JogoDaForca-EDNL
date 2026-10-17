@@ -56,4 +56,19 @@ public class RegrasForca {
     public int getAcertos() { return acertos; }
     public ArvoreBinaria<Integer> getArvore() { return arvore; }
 
+    // Para fazer as chamadas no Menu
+    public void revelarTudo() {
+    this.arvore.revelarTudo();
+    }
+
+    public void imprimirArvore() {
+        this.arvore.imprimir();
+    }
+
+    public int getQuantidadeNos() {
+        return quantidadeNos;
+    }
+
 }
+
+    
