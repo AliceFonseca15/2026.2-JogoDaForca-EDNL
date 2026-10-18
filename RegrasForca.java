@@ -20,7 +20,7 @@ public class RegrasForca {
         int inseridos = 0;
 
         while (inseridos < qtdNos) {
-            int valorSorteado = gerador.nextInt(51); // Gera entre 0 e 50
+            int valorSorteado = gerador.nextInt(31); // Gera entre 0 e 30
 
             if (this.arvore.buscar(valorSorteado) == null) {
                 this.arvore.inserir(valorSorteado);
