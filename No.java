@@ -14,12 +14,12 @@ public class No<T extends Comparable<T>> {
 	}
 
 	public void inserir(T dado){		
-		if(this.dado.compareTo(dado) >= 1){ // sub-árvore direita
+		if(this.dado.compareTo(dado) >= 1){ 
 			if(this.esquerda == null) {
 				No<T> no_novo = new No<T>(dado);
 				this.esquerda = no_novo;
 				no_novo.pai = this;
-			}else {
+			}else {							// 
 				this.esquerda.inserir(dado);
 			}
 		}else { // sub-árvore esquerda
@@ -52,22 +52,12 @@ public class No<T extends Comparable<T>> {
     		return String.valueOf(this.dado);
 		} else {
     		return "[ ? ]";
+		}
 	}
-
-    }
-    public void imprimir() {
-        System.out.print(exibir());
-    }
-
     public void revelarTodos() {
         this.revelado = true;
         if (esquerda != null) esquerda.revelarTodos();
         if (direita != null) direita.revelarTodos();
-    }
-
-    @Override
-    public String toString() {
-        return exibir();
     }
 
 	public void imprimirNo(String recuo){

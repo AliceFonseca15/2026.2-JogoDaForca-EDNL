@@ -27,25 +27,22 @@ public class JogoForca {
 
         while (executando) {
             exibirMenuPrincipal();
-            int opcao = lerOpcaoMenu(scanner, "Escolha uma opção: ", 0, 1, 2);
+            // Remova o número 3 no final desta linha:
+            int opcao = lerOpcaoMenu(scanner, "Escolha uma opção: ", 0, 1, 2); 
 
             switch (opcao) {
                 case 1:
-                    // Jogo Rápido com configurações padrão (7 nós e 6 erros máximos)
                     iniciarPartida(scanner, 7, 6);
                     break;
                 case 2:
-                    // Jogo Personalizado com escolha de nós e limite de erros
                     configurarEJogoPersonalizado(scanner);
                     break;
                 case 0:
-                    // Sair do sistema
                     executando = false;
                     System.out.println("\nObrigado por jogar o Jogo da Forca da ABB! Até a próxima!\n");
                     break;
             }
         }
-
         scanner.close();
     }
 
@@ -67,8 +64,8 @@ public class JogoForca {
      */
     private static void configurarEJogoPersonalizado(Scanner scanner) {
         System.out.println("\n--- CONFIGURAÇÃO DE JOGO PERSONALIZADO ---");
-        int qtdNos = lerInteiro(scanner, "Quantidade de nós na árvore (entre 3 e 20) [padrão 7]: ", 3, 20);
-        int maxErros = lerInteiro(scanner, "Limite máximo de erros na forca (entre 1 e 10) [padrão 6]: ", 1, 10);
+        int qtdNos = lerInteiro(scanner, "Quantidade de nós na árvore (entre 3 e 10) [padrão 7]: ", 3, 10);
+        int maxErros = lerInteiro(scanner, "Limite máximo de erros na forca (entre 1 e 50) [padrão 6]: ", 1, 50);
         iniciarPartida(scanner, qtdNos, maxErros);
     }
 
@@ -83,7 +80,7 @@ public class JogoForca {
     private static void iniciarPartida(Scanner scanner, int qtdNos, int maxErros) {
         RegrasForca regras = new RegrasForca();
 
-        System.out.println("\nGerando árvore binária de busca com " + qtdNos + " valores aleatórios (0 a 30)...");
+        System.out.println("\nGerando árvore binária de busca com " + qtdNos + " valores aleatórios (0 a 50)...");
         regras.gerarArvore(qtdNos);
 
         Set<Integer> palpitesTentados = new LinkedHashSet<>();
@@ -108,12 +105,9 @@ public class JogoForca {
             System.out.println("- Acertos: " + regras.getAcertos() + " de " + regras.getQuantidadeNos() + " nós revelados");
             System.out.println("- Erros: " + errosAtuais + " de " + maxErros + " (Chances restantes: " + errosRestantes + ")");
             System.out.println("- Total de tentativas realizadas: " + regras.getTentativas());
-            System.out.println("- Palpites corretos: " + (palpitesCorretos.isEmpty() ? "Nenhum ainda" : palpitesCorretos));
-            System.out.println("- Palpites incorretos: " + (palpitesErrados.isEmpty() ? "Nenhum ainda" : palpitesErrados));
-            System.out.println("--------------------------------------------------------");
 
             System.out.println("AÇÕES DA RODADA:");
-            System.out.println("  [1] Arriscar um número (0 a 30)");
+            System.out.println("  [1] Arriscar um número (0 a 50)");
             System.out.println("  [2] Desistir da partida (revelar árvore completa)");
             System.out.println("  [0] Abandonar partida e voltar ao Menu");
 
@@ -121,7 +115,7 @@ public class JogoForca {
 
             switch (acao) {
                 case 1:
-                    int palpite = lerInteiro(scanner, "Digite seu palpite (0 a 30): ", 0, 30);
+                    int palpite = lerInteiro(scanner, "Digite seu palpite (0 a 50): ", 0, 50);
 
                     if (palpitesTentados.contains(palpite)) {
                         System.out.println("\n>> ATENÇÃO: Você já arriscou o número " + palpite + "! Tente outro número diferente.");
@@ -142,6 +136,10 @@ public class JogoForca {
                             emJogo = false;
                         }
                     } else {
+                        if (palpitesErrados.size() >= maxErros) { 
+                            exibirDerrota(regras, maxErros, palpitesCorretos, palpitesErrados);
+                            emJogo = false;
+                        }
                         palpitesErrados.add(palpite);
                         System.out.println("\n========================================================");
                         System.out.println(">> ERROU! O número " + palpite + " NÃO pertence à árvore.");

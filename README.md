@@ -13,7 +13,7 @@ Este projeto consiste em uma aplicação interativa via terminal que adapta o cl
 | Integrante | Papel | Principais Responsabilidades |
 | :--- | :--- | :--- |
 | **Alice Fonseca dos Santos** | Pessoa 1 | Modificação estrutural de `No.java` (atributo `revelado`, métodos `exibir()`, `revelarTodos()`), adição de `revelarTudo()` em `ArvoreBinaria.java` e elaboração dos testes de integridade em `TesteArvore.java`. |
-| **Davi de Medeiros Linhares** | Pessoa 2 | Criação da classe de controle `RegrasForca.java`, geração de números aleatórios sem duplicatas (0 a 30) com `buscar()`, processamento de palpites, controle de acertos/tentativas e validação da condição de vitória. |
+| **Davi de Medeiros Linhares** | Pessoa 2 | Criação da classe de controle `RegrasForca.java`, geração de números aleatórios sem duplicatas (0 a 50) com `buscar()`, processamento de palpites, controle de acertos/tentativas e validação da condição de vitória. |
 | **Caio Rodrigo Galiza Salin de Melo** | Pessoa 3 | Criação da classe executável principal `JogoForca.java`, desenvolvimento do menu interativo via terminal, tratamento rigoroso de exceções e entradas inválidas, renderização visual da forca em arte ASCII, histórico de rodadas e elaboração da documentação técnica no `README.md`. |
 
 ---
@@ -22,7 +22,7 @@ Este projeto consiste em uma aplicação interativa via terminal que adapta o cl
 
 No **Jogo da Forca da ABB**, em vez de adivinhar letras de uma palavra secreta, o jogador deve descobrir os **valores numéricos inteiros** que compõem os nós de uma Árvore Binária de Busca.
 
-- Os números são gerados aleatoriamente entre **0 e 30** e não possuem repetições.
+- Os números são gerados aleatoriamente entre **0 e 50** e não possuem repetições.
 - Inicialmente, todos os nós da árvore são exibidos de forma oculta como `[ ? ]`.
 - Ao acertar um palpite, o nó correspondente é revelado na sua posição exata na árvore.
 - Caso o jogador erre o palpite, uma parte do corpo do boneco da forca é desenhada. O jogador perde se acumular **6 erros** (enforcado).
@@ -47,18 +47,18 @@ O projeto partiu do código base fornecido no repositório [demostenessena/ednl_
 
 ### 3. Criação da classe `RegrasForca.java`
 Classe intermediária que orquestra as regras da partida utilizando a ABB:
-- **`gerarArvore(int qtdNos)`:** sorteia números inteiros de 0 a 30 com a classe `java.util.Random`. Utiliza o método `this.arvore.buscar(valorSorteado)` para garantir que **não existam números duplicados** antes de invocar `this.arvore.inserir(valorSorteado)`.
+- **`gerarArvore(int qtdNos)`:** sorteia números inteiros de 0 a 50 com a classe `java.util.Random`. Utiliza o método `this.arvore.buscar(valorSorteado)` para garantir que **não existam números duplicados** antes de invocar `this.arvore.inserir(valorSorteado)`.
 - **`verificarPalpite(int palpite)`:** incrementa o contador de tentativas e busca o nó na árvore. Se encontrado e ainda não revelado, altera `noEncontrado.revelado = true` e incrementa os acertos. Retorna `true` em caso de acerto e `false` caso o número não exista na árvore.
 - **`verificarVitoria()`:** compara se `acertos == quantidadeNos`, determinando a vitória do jogador.
 - **`revelarTudo()` e `imprimirArvore()`:** métodos delegados para exibição e finalização.
 
 ### 4. Criação da classe principal `JogoForca.java`
 Classe responsável pela interface com o usuário (CLI) e controle do fluxo de jogo:
-- **Menu interativo completo:** navegação intuitiva com opções para jogo rápido, jogo personalizado, visualização de regras e créditos.
+- **Menu interativo completo**: navegação intuitiva com opções para jogo rápido e jogo personalizado."
 - **Visualização gráfica em ASCII:** desenho dinâmico da forca com 7 estágios visuais (da forca vazia até o enforcamento completo).
 - **Tratamento de entradas e exceções:**
   - Tratamento de `NumberFormatException` para evitar travamento do terminal caso o usuário digite texto em vez de números.
-  - Validação de intervalos numéricos (palpites devem estar entre 0 e 30).
+  - Validação de intervalos numéricos (palpites devem estar entre 0 e 50).
   - Bloqueio de palpites repetidos (informa que o número já foi tentado sem penalizar o jogador).
   - Tratamento de entradas vazias e consumo correto de quebras de linha (`Scanner.nextLine()`).
 - **Painel de status da rodada:** exibe acertos, erros restantes, lista de palpites certos e errados, total de tentativas e árvore em tempo real.
@@ -85,7 +85,7 @@ Ao iniciar a aplicação (`java JogoForca`), o usuário é apresentado ao menu p
 ```
 
 - **[1] Novo Jogo Rápido:** inicia imediatamente uma partida com 7 nós aleatórios e tolerância de até 6 erros na forca.
-- **[2] Novo Jogo Personalizado:** permite ao usuário configurar a quantidade de nós (entre 3 e 20) e o limite de erros (entre 1 e 10).
+- **[2] Novo Jogo Personalizado:** permite ao usuário configurar a quantidade de nós (entre 3 e 10) e o limite de erros (entre 1 e 50).
 - **[0] Sair:** encerra a execução do programa com mensagem de despedida.
 
 ### Menu durante a Rodada de Jogo
@@ -93,12 +93,12 @@ Durante a partida, após a exibição da forca, da árvore e do status, o jogado
 
 ```text
 AÇÕES DA RODADA:
-  [1] Arriscar um número (0 a 30)
+  [1] Arriscar um número (0 a 50)
   [2] Desistir da partida (revelar árvore completa)
   [0] Abandonar partida e voltar ao Menu
 ```
 
-- **[1] Arriscar um número:** solicita um número entre 0 e 30. Se o número estiver na árvore, ele é revelado; caso contrário, é contabilizado um erro e a forca avança.
+- **[1] Arriscar um número:** solicita um número entre 0 e 50. Se o número estiver na árvore, ele é revelado; caso contrário, é contabilizado um erro e a forca avança.
 - **[2] Desistir da partida:** confirma a desistência e revela toda a árvore na tela.
 - **[0] Abandonar partida:** interrompe a partida e retorna ao menu principal.
 
